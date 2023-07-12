@@ -1,0 +1,338 @@
+Byte Order: <
+Camera: Hamamatsu_Gemini
+Data Type: uint16
+File: Z:\users\masullo\z_raw\23_06_19 glycocalyx RESI\GalNAz_R1_250pM_pcapcdtx_561_35mW_1\GalNAz_R1_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome.tif
+Frames: 50000
+Height: 576
+Micro-Manager Acquisiton Comments:
+- ''
+Micro-Manager Metadata:
+  Binning: 2
+  BitDepth: 16
+  COM4-AnswerTimeout: '500.0000'
+  COM4-BaudRate: '9600'
+  COM4-DTR: Disable
+  COM4-DataBits: '8'
+  COM4-DelayBetweenCharsMs: '0.0000'
+  COM4-Description: Serial port driver (boost:asio)
+  COM4-Fast USB to Serial: Disable
+  COM4-Handshaking: 'Off'
+  COM4-Name: COM4
+  COM4-Parity: None
+  COM4-StopBits: '1'
+  COM4-Verbose: '1'
+  Camera: Hamamatsu_Gemini
+  ChannelIndex: 0
+  Core-AutoFocus: PFS
+  Core-AutoShutter: '1'
+  Core-Camera: Hamamatsu_Gemini
+  Core-ChannelGroup: ''
+  Core-Focus: ZDrive
+  Core-Galvo: ''
+  Core-ImageProcessor: ''
+  Core-Initialize: '1'
+  Core-SLM: ''
+  Core-Shutter: Turret1Shutter
+  Core-TimeoutMs: '5000'
+  Core-XYStage: XYStage
+  ElapsedTime-ms: 792.0
+  Exposure-ms: 100.04063235294117
+  FileName: GalNAz_R1_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome.tif
+  FilterTurret1-Label: 2-TIRF 560
+  FilterTurret1-State: '1'
+  Frame: 0
+  FrameIndex: 0
+  Hamamatsu_Gemini-Binning: 2x2
+  Hamamatsu_Gemini-Bits per Channel: '16'
+  Hamamatsu_Gemini-CCDTemperature: '-8.0000'
+  Hamamatsu_Gemini-CONVERSION FACTOR COEFF: '0.2300'
+  Hamamatsu_Gemini-CONVERSION FACTOR OFFSET: '400.0000'
+  Hamamatsu_Gemini-Camera Bus: USB3
+  Hamamatsu_Gemini-Camera Version: '1.14'
+  Hamamatsu_Gemini-CameraID: 'S/N: 501005'
+  Hamamatsu_Gemini-CameraName: C15440-20UP
+  Hamamatsu_Gemini-DEFECT CORRECT MODE: 'ON'
+  Hamamatsu_Gemini-Description: Hamamatsu device adapter 2.0.2.59
+  Hamamatsu_Gemini-EXPOSURE FULL RANGE: DISABLE
+  Hamamatsu_Gemini-EXPOSURE TIME UNITS: MILLISECONDS
+  Hamamatsu_Gemini-Exposure: '100.04'
+  Hamamatsu_Gemini-HOT PIXEL CORRECT LEVEL: STANDARD
+  Hamamatsu_Gemini-INTERNAL LINE INTERVAL: '0.0800'
+  Hamamatsu_Gemini-INTERNAL LINE INTERVAL UNITS: MILLISECONDS
+  Hamamatsu_Gemini-INTERNAL LINE SPEED: '0.0812'
+  Hamamatsu_Gemini-INTERNAL LINE SPEED UNITS: METERS PER SECOND
+  Hamamatsu_Gemini-MASTER PULSE BURST TIMES: '1'
+  Hamamatsu_Gemini-MASTER PULSE INTERVAL: '0.1000'
+  Hamamatsu_Gemini-MASTER PULSE MODE: CONTINUOUS
+  Hamamatsu_Gemini-MASTER PULSE TRIGGER SOURCE: EXTERNAL
+  Hamamatsu_Gemini-MINIMUM ACQUISITION TIMEOUT: '60000'
+  Hamamatsu_Gemini-Name: HamamatsuHam_DCAM
+  Hamamatsu_Gemini-OUTPUT TRIGGER DELAY UNITS: SECONDS
+  Hamamatsu_Gemini-OUTPUT TRIGGER DELAY[0]: '0.0000'
+  Hamamatsu_Gemini-OUTPUT TRIGGER DELAY[1]: '0.0000'
+  Hamamatsu_Gemini-OUTPUT TRIGGER DELAY[2]: '0.0000'
+  Hamamatsu_Gemini-OUTPUT TRIGGER KIND[0]: LOW
+  Hamamatsu_Gemini-OUTPUT TRIGGER KIND[1]: LOW
+  Hamamatsu_Gemini-OUTPUT TRIGGER KIND[2]: LOW
+  Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD UNITS: SECONDS
+  Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD[0]: '0.0010'
+  Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD[1]: '0.0010'
+  Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD[2]: '0.0010'
+  Hamamatsu_Gemini-OUTPUT TRIGGER POLARITY[0]: NEGATIVE
+  Hamamatsu_Gemini-OUTPUT TRIGGER POLARITY[1]: NEGATIVE
+  Hamamatsu_Gemini-OUTPUT TRIGGER POLARITY[2]: NEGATIVE
+  Hamamatsu_Gemini-OUTPUT TRIGGER PRE HSYNC COUNT: '0'
+  Hamamatsu_Gemini-OUTPUT TRIGGER SOURCE[0]: READOUT END
+  Hamamatsu_Gemini-OUTPUT TRIGGER SOURCE[1]: READOUT END
+  Hamamatsu_Gemini-OUTPUT TRIGGER SOURCE[2]: READOUT END
+  Hamamatsu_Gemini-PixelType: 16bit
+  Hamamatsu_Gemini-READOUT DIRECTION: FORWARD
+  Hamamatsu_Gemini-ReadoutTime: '0.1844'
+  Hamamatsu_Gemini-SENSOR MODE: AREA
+  Hamamatsu_Gemini-ScanMode: '1'
+  Hamamatsu_Gemini-TRIGGER ACTIVE: EDGE
+  Hamamatsu_Gemini-TRIGGER DELAY: '0.0000'
+  Hamamatsu_Gemini-TRIGGER GLOBAL EXPOSURE: DELAYED
+  Hamamatsu_Gemini-TRIGGER SOURCE: INTERNAL
+  Hamamatsu_Gemini-TRIGGER TIMES: '1'
+  Hamamatsu_Gemini-TransposeCorrection: '0'
+  Hamamatsu_Gemini-TransposeMirrorX: '0'
+  Hamamatsu_Gemini-TransposeMirrorY: '0'
+  Hamamatsu_Gemini-TransposeXY: '0'
+  Hamamatsu_Gemini-Trigger: NORMAL
+  Hamamatsu_Gemini-TriggerPolarity: NEGATIVE
+  Height: 576
+  ImageNumber: 0
+  IntermediateMagnification-Magnification: 1.0x
+  LightPath-Label: 2-R100
+  LightPath-State: '1'
+  MicroscopeID-ClosedPosition: '0'
+  MicroscopeID-Description: Demo filter wheel driver
+  MicroscopeID-HubID: ''
+  MicroscopeID-Label: Gemini
+  MicroscopeID-Name: DWheel
+  MicroscopeID-State: '0'
+  Nosepiece-Label: 1-Apo TIRF 100x Oil
+  Nosepiece-State: '0'
+  PFS-DichroicMirrorInserted: 'Yes'
+  PFS-FocusMaintenance: 'Off'
+  PFS-LEDIntensity: '75'
+  PFS-PFS Status: '0000000000000000'
+  PFS-PFS in Range: Out of Range
+  PixelSizeAffine: 0.0;0.0;0.0;0.0;0.0;0.0
+  PixelSizeUm: 0.0
+  PixelType: GRAY16
+  PositionIndex: 0
+  PositionName: Default
+  ROI: 288-288-576-576
+  ReceivedTime: 2023-06-19 12:44:45.990 +0200
+  ScopeDataKeys:
+  - IntermediateMagnification-Magnification
+  - XYStage-AxisLetterX
+  - COM4-Description
+  - XYStage-AxisLetterY
+  - LightPath-Label
+  - Nosepiece-Label
+  - COM4-StopBits
+  - XYStage-OnlySendSerialCommandOnChange
+  - XYStage-OverShoot(um)
+  - XYStage-VectorMoveY-VE(mm/s)
+  - Hamamatsu_Gemini-CONVERSION FACTOR COEFF
+  - COM4-DelayBetweenCharsMs
+  - XYStage-VectorMoveX-VE(mm/s)
+  - COM4-Name
+  - Core-ImageProcessor
+  - XYStage-SerialResponse
+  - PFS-PFS Status
+  - Core-SLM
+  - Hamamatsu_Gemini-EXPOSURE TIME UNITS
+  - COM4-Parity
+  - XYStage-Wait_Cycles
+  - XYStage-SerialCommand
+  - COM4-Verbose
+  - XYStage-EnableAdvancedProperties
+  - PFS-DichroicMirrorInserted
+  - Hamamatsu_Gemini-CONVERSION FACTOR OFFSET
+  - COM4-BaudRate
+  - XYStage-Version
+  - COM4-DTR
+  - XYStage-BuildName
+  - Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD UNITS
+  - COM4-AnswerTimeout
+  - Hamamatsu_Gemini-TransposeCorrection
+  - Hamamatsu_Gemini-READOUT DIRECTION
+  - Hamamatsu_Gemini-Trigger
+  - Core-Focus
+  - ZDrive-Speed
+  - COM4-DataBits
+  - Core-ChannelGroup
+  - Hamamatsu_Gemini-Camera Version
+  - Hamamatsu_Gemini-INTERNAL LINE INTERVAL UNITS
+  - PFS-FocusMaintenance
+  - XYStage-MotorOnOff
+  - Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD[2]
+  - Hamamatsu_Gemini-TransposeXY
+  - XYStage-Description
+  - FilterTurret1-State
+  - Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD[1]
+  - Hamamatsu_Gemini-Binning
+  - Hamamatsu_Gemini-TRIGGER DELAY
+  - MicroscopeID-Name
+  - Hamamatsu_Gemini-OUTPUT TRIGGER PERIOD[0]
+  - Hamamatsu_Gemini-TransposeMirrorX
+  - Hamamatsu_Gemini-TRIGGER GLOBAL EXPOSURE
+  - Hamamatsu_Gemini-Description
+  - Hamamatsu_Gemini-ScanMode
+  - Hamamatsu_Gemini-MINIMUM ACQUISITION TIMEOUT
+  - Hamamatsu_Gemini-CameraID
+  - XYStage-JoyStick Reverse
+  - MicroscopeID-HubID
+  - Core-XYStage
+  - Hamamatsu_Gemini-TransposeMirrorY
+  - Hamamatsu_Gemini-MASTER PULSE BURST TIMES
+  - MicroscopeID-State
+  - Hamamatsu_Gemini-INTERNAL LINE SPEED
+  - Core-AutoShutter
+  - XYStage-TransposeMirrorX
+  - FilterTurret1-Label
+  - Turret1Shutter-State
+  - Hamamatsu_Gemini-TRIGGER TIMES
+  - ZDrive-Tolerance
+  - Hamamatsu_Gemini-TRIGGER SOURCE
+  - XYStage-TransposeMirrorY
+  - XYStage-CompileDate
+  - XYStage-Port
+  - Hamamatsu_Gemini-PixelType
+  - XYStage-Error-E(nm)
+  - MicroscopeID-Label
+  - Hamamatsu_Gemini-OUTPUT TRIGGER SOURCE[2]
+  - COM4-Fast USB to Serial
+  - Core-Camera
+  - Hamamatsu_Gemini-HOT PIXEL CORRECT LEVEL
+  - Hamamatsu_Gemini-Camera Bus
+  - Hamamatsu_Gemini-OUTPUT TRIGGER SOURCE[1]
+  - Hamamatsu_Gemini-Bits per Channel
+  - Hamamatsu_Gemini-OUTPUT TRIGGER SOURCE[0]
+  - PFS-PFS in Range
+  - Hamamatsu_Gemini-Exposure
+  - XYStage-Backlash-B
+  - XYStage-Maximum Speed (Do Not Change)
+  - Hamamatsu_Gemini-EXPOSURE FULL RANGE
+  - MicroscopeID-ClosedPosition
+  - Hamamatsu_Gemini-ReadoutTime
+  - XYStage-JoyStick Fast Speed
+  - PFS-LEDIntensity
+  - Hamamatsu_Gemini-Name
+  - Core-TimeoutMs
+  - Hamamatsu_Gemini-OUTPUT TRIGGER DELAY UNITS
+  - Hamamatsu_Gemini-OUTPUT TRIGGER KIND[2]
+  - MicroscopeID-Description
+  - Hamamatsu_Gemini-DEFECT CORRECT MODE
+  - XYStage-Acceleration-AC(ms)
+  - Hamamatsu_Gemini-MASTER PULSE MODE
+  - COM4-Handshaking
+  - Hamamatsu_Gemini-TriggerPolarity
+  - Hamamatsu_Gemini-OUTPUT TRIGGER KIND[1]
+  - Hamamatsu_Gemini-MASTER PULSE TRIGGER SOURCE
+  - XYStage-Name
+  - XYStage-StepSizeY_um
+  - Hamamatsu_Gemini-OUTPUT TRIGGER KIND[0]
+  - Core-AutoFocus
+  - Hamamatsu_Gemini-SENSOR MODE
+  - Hamamatsu_Gemini-OUTPUT TRIGGER DELAY[2]
+  - XYStage-JoyStick Slow Speed
+  - XYStage-StepSizeX_um
+  - Hamamatsu_Gemini-MASTER PULSE INTERVAL
+  - Hamamatsu_Gemini-INTERNAL LINE INTERVAL
+  - Hamamatsu_Gemini-TRIGGER ACTIVE
+  - Hamamatsu_Gemini-OUTPUT TRIGGER PRE HSYNC COUNT
+  - Hamamatsu_Gemini-OUTPUT TRIGGER DELAY[1]
+  - Hamamatsu_Gemini-OUTPUT TRIGGER POLARITY[2]
+  - Core-Galvo
+  - XYStage-FinishError-PCROS(nm)
+  - XYStage-Speed-S
+  - Hamamatsu_Gemini-CCDTemperature
+  - Hamamatsu_Gemini-OUTPUT TRIGGER DELAY[0]
+  - Hamamatsu_Gemini-OUTPUT TRIGGER POLARITY[1]
+  - Core-Initialize
+  - Hamamatsu_Gemini-CameraName
+  - Hamamatsu_Gemini-INTERNAL LINE SPEED UNITS
+  - Hamamatsu_Gemini-OUTPUT TRIGGER POLARITY[0]
+  - LightPath-State
+  - Nosepiece-State
+  - Core-Shutter
+  Slice: 0
+  SliceIndex: 0
+  Turret1Shutter-State: '0'
+  UUID: 02a5a296-3894-4249-9815-e6b100f80a23
+  UserData: null
+  Width: 576
+  XPositionUm: -2583.8
+  XYStage-Acceleration-AC(ms): '100'
+  XYStage-AxisLetterX: X
+  XYStage-AxisLetterY: Y
+  XYStage-Backlash-B: '0.0040'
+  XYStage-BuildName: STD_XY
+  XYStage-CompileDate: May 03 2019:11:28:11
+  XYStage-Description: ASI XY stage driver adapter
+  XYStage-EnableAdvancedProperties: 'No'
+  XYStage-Error-E(nm): '1000.0000'
+  XYStage-FinishError-PCROS(nm): '2.0000'
+  XYStage-JoyStick Fast Speed: '60'
+  XYStage-JoyStick Reverse: 'Off'
+  XYStage-JoyStick Slow Speed: '5'
+  XYStage-Maximum Speed (Do Not Change): '0.8576'
+  XYStage-MotorOnOff: 'On'
+  XYStage-Name: XYStage
+  XYStage-OnlySendSerialCommandOnChange: 'Yes'
+  XYStage-OverShoot(um): '0.0000'
+  XYStage-Port: COM4
+  XYStage-SerialCommand: ''
+  XYStage-SerialResponse: ''
+  XYStage-Speed-S: '0.5746'
+  XYStage-StepSizeX_um: '0.0100'
+  XYStage-StepSizeY_um: '0.0100'
+  XYStage-TransposeMirrorX: '0'
+  XYStage-TransposeMirrorY: '0'
+  XYStage-VectorMoveX-VE(mm/s): '0.0000'
+  XYStage-VectorMoveY-VE(mm/s): '0.0000'
+  XYStage-Version: 'Version: USB-9.2m '
+  XYStage-Wait_Cycles: '0'
+  YPositionUm: 5986.7
+  ZDrive-Speed: 2.50mm/sec
+  ZDrive-Tolerance: 0.000um
+  ZPositionUm: 3763.42
+Width: 576
+---
+Box Size: 9
+Fit method: LQ, Gaussian
+Generated by: Picasso Localize
+Min. Net Gradient: 10000
+Pixelsize: 130
+ROI: null
+---
+Generated by: Picasso Render
+Last driftfile: Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_R1_250pM_pcapcdtx_561_35mW_1/GalNAz_R1_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_230622_170153_drift.txt
+---
+Basic frame analysis: true
+Clustering radius xy [cam. pixels] for each channel:
+- 0.05
+- 0.05
+- 0.05
+- 0.05
+- 0.05
+- 0.05
+Min. number of locs in a cluster for each channel:
+- 15
+- 15
+- 15
+- 15
+- 15
+- 15
+Paths to RESI channels:
+- Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_combined/GalNAz_R1_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks.hdf5
+- Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_combined/GalNAz_R2_150pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned.hdf5
+- Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_combined/GalNAz_R3_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned.hdf5
+- Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_combined/GalNAz_R4_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned.hdf5
+- Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_combined/GalNAz_R5_500pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned.hdf5
+- Z:/users/masullo/z_raw/23_06_19 glycocalyx RESI/GalNAz/GalNAz_combined/GalNAz_R6_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned.hdf5
