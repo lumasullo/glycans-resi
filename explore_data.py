@@ -20,7 +20,7 @@ plt.close('all')
 ### Misc parameters ###
 
 # parameters for the NND analysis
-binsize = 1
+binsize = 2
 maxdist = 1000
 
 # display plots or not
@@ -34,10 +34,16 @@ length = 1000 # nm, length of the display area for the graph
 # Load experimental data
 # =============================================================================
 
-folder = 'data/230620'
-# file = 'ManNAz_RESI.hdf5'
+folder = 'data/230619'
 file = 'ManNAz_RESI.hdf5'
+# file = 'GalNAz_RESI.hdf5'
 # file = 'ManNAz_R1_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_without_AuNPs_cluster_centers.hdf5'
+# file = 'ManNAz_R2_150pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned_without_AuNPs_cluster_centers.hdf5'
+# file = 'ManNAz_R3_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftbypicks_aligned_without_AuNPs_cluster_centers.hdf5'
+# file = 'ManNAz_R4_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned_without_AuNPs_cluster_centers.hdf5'
+# file = 'ManNAz_R5_500pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftbypicks_aligned_without_AuNPs_cluster_centers.hdf5'
+# file = 'ManNAz_R6_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned_without_AuNPs_cluster_centers.hdf5'
+
 filename_0 = folder + '/' + file 
 
 df_0 = pd.read_hdf(filename_0, key = 'locs')
