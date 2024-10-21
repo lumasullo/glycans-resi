@@ -34,8 +34,11 @@ length = 1000 # nm, length of the display area for the graph
 # Load experimental data
 # =============================================================================
 
-folder = 'data/230619'
-file = 'ManNAz_RESI.hdf5'
+folder = '/Users/masullo/Documents/GitHub/glycans-resi/data/HMEC/ManNAz_june2024'
+file = 'mannaz_picked_resi.hdf5'
+
+# folder = 'data/230619'
+# file = 'ManNAz_RESI.hdf5'
 # file = 'GalNAz_RESI.hdf5'
 # file = 'ManNAz_R1_250pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_without_AuNPs_cluster_centers.hdf5'
 # file = 'ManNAz_R2_150pM_pcapcdtx_561_35mW_1_MMStack_Pos0.ome_locs_render_RCC500_undriftfrompicks_aligned_without_AuNPs_cluster_centers.hdf5'
@@ -83,7 +86,7 @@ fig0, ax0 = plt.subplots()
 
 colors = ['#2880C4', '#97D8C4', '#F4B942', '#363636']
 
-ax0.set_xlim(0, 200)
+ax0.set_xlim(0, 100)
 # ax0.set_ylim(0, freqs_sim['1nn'].max()*1.1)
 
 ax0.set_xlabel('K-th NND (nm)')
@@ -91,7 +94,7 @@ ax0.set_ylabel('Counts')
 
 ax0.set_box_aspect(1)
 
-binsize = 2
+binsize = 0.2
 bins = np.arange(0, maxdist, binsize)
 
 for i in range(4):
