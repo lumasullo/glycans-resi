@@ -13,6 +13,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import configparser
 from timeit import default_timer as timer
+from scipy.stats import gaussian_kde
 
 from sklearn.neighbors import NearestNeighbors
 from scipy.spatial.distance import pdist
@@ -34,12 +35,25 @@ Load experimental data
 """
 
 # 240617_HMEC ManNAz
-path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240617_HMEC/RESI_ManNAz/workflow_analysis/00_cluster_241009-1223/00_cluster_aggregation_241009-1223/04_save_datasets_aggregated/'
+# path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240617_HMEC/RESI_ManNAz/workflow_analysis/00_cluster_241009-1223/00_cluster_aggregation_241009-1223/04_save_datasets_aggregated/'
 filename = r'target_picked.hdf5'
 
-# filepath = path + filename
+# path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240617HMECmannaz/1/'
+# path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/Homogenous areas/GalNAz/1/'
+# filename = 'target_picked.hdf5'
+
+# filepath = path + filename # comment / uncomment this line for batch analysis or single analysis respectively
 
 px = 130
+
+
+# Parameters that we might want to change
+
+K = 4 # number of NNDs to be calculated
+binsize = 0.3 # bin size for NND
+
+nndxlim = 10 # lim of x coord. for NND plot in nm
+nndylim = 0.25 # lim of y coord. for NND plot
 
 # create subfolder for results
 
@@ -57,7 +71,7 @@ N = df_exp.shape[0] # total number of sugars
 print('Total number of sugars:', N)
 
 # N_sim = int(1e6) # this parameter controls the resolution of the simulation
-N_sim = 50000
+N_sim = int(1e5)
 
 """
 ===============================================================================
@@ -69,11 +83,13 @@ picked_area = io.extract_total_picked_area(filepath.replace('.hdf5', f'.yaml'))
 picked_area = np.around(picked_area, 4)
 
 if picked_area is not None:
-    print(f"Total Picked Area (um^2): {picked_area}")
+    print(f"Total Picked Area (μm^2): {np.around(picked_area, 2)}")
 else:
     print("The 'Total Picked Area (μm^2)' parameter was not found.")
 
 obs_density = N / picked_area
+
+print('Observed density is:', int(np.around(obs_density, 0)), 'μm^-2')
 
 w = np.sqrt(N_sim/obs_density) 
 h = w
@@ -108,6 +124,9 @@ df_sim = pd.read_hdf(results_path + filename_csr + '.hdf5', key = 'locs')
 Analysis pipeline
 ===============================================================================
 """
+
+clustered_fraction = np.zeros(2) # clustered fraction for 0: exp and 1: CSR
+xmax = np.zeros(2) # position of the 1nn peak for  0: exp and 1: CSR
 
 # apply the same analysis to the experimental and the simulated dataset
 for i, df in enumerate([df_exp, df_sim]):
@@ -162,7 +181,7 @@ for i, df in enumerate([df_exp, df_sim]):
         
         cluster = db_clusters[db_clusters['group'] == j]
         
-        sugars = np.array([cluster['x'], 
+        sugars = np.array([cluster['x'],
                            cluster['y']])
                     
         nsugars = (sugars.shape[1])
@@ -212,12 +231,13 @@ for i, df in enumerate([df_exp, df_sim]):
         ax_0.set_ylabel('Counts')
         
         ax_0.set_xlim(1.5, 15)
-        ax_0.set_ylim(0, counts0[2:].max() * 1.1)
+        ax_0.set_ylim(0, counts0[2:].max() * 1.5)
         
         ax_0.legend()
         
+    clustered_fraction[i] = counts0[2:].sum()
     
-    print('Number of clustered sugars:', np.array(cluster_size).sum())
+    print('Fraction of clustered sugars:', np.around(counts0[2:].sum(),2))
     
     
     """
@@ -267,7 +287,7 @@ for i, df in enumerate([df_exp, df_sim]):
     """
     
     # parameters for the NND analysis
-    binsize = 1
+    # binsize = 1
     maxdist = 1000
     
     fsize = (10, 10)
@@ -286,20 +306,28 @@ for i, df in enumerate([df_exp, df_sim]):
     freqs_exp = {}
     bin_centers_exp = {}
     
-    for j in range(4):
+    bins = np.arange(0, maxdist, binsize)
+
+    for j in range(K):
         
         key = str(j+1) + 'nn'
         distances_exp[key] = _distances_exp[:, j+1] # get the first neighbour distances (0 for hetero, 1 for homo in the second coord)
     
-        bins = np.arange(0, maxdist, binsize)
         freqs_exp[key], binedges = np.histogram(distances_exp[key], bins=bins, 
                                                 density=True)
             
         bin_centers_exp[key] = (binedges[:-1] + binedges[1:])/2
-    
+        
+        if j == 0: # apply KDE to the 1nn
+            
+            data = distances_exp[key]
+            xxkde = np.linspace(0, 200, 2000)
+                            
+            kde = gaussian_kde(data, bw_method=0.1)  # bw_method sets the bandwidth
+            
     if i == 0:
         
-        for j in range(4):
+        for j in range(K):
             
             key = str(j+1) + 'nn'
             freqs_exp[key] = np.append(freqs_exp[key], np.nan)
@@ -309,9 +337,12 @@ for i, df in enumerate([df_exp, df_sim]):
         
         df_save.to_csv(results_path + 'nnds.csv', index=False)
         
+        df_save_distances = pd.DataFrame(distances_exp)
+        df_save_distances.to_csv(results_path + 'distances.csv', index=False)
+        
     if i == 1:
         
-        for j in range(4):
+        for j in range(K):
             
             key = str(j+1) + 'nn'
             freqs_exp[key] = np.append(freqs_exp[key], np.nan)
@@ -320,6 +351,10 @@ for i, df in enumerate([df_exp, df_sim]):
         df_save['binedges'] = binedges
         
         df_save.to_csv(results_path + 'nnds_csr.csv', index=False)
+        
+        df_save_distances = pd.DataFrame(distances_exp)
+        df_save_distances.to_csv(results_path + 'distances_csr.csv', index=False)
+        
 
     # =============================================================================
     # Plot of experimental NNDs
@@ -331,45 +366,71 @@ for i, df in enumerate([df_exp, df_sim]):
     
         fig_2, ax_2 = plt.subplots(figsize=(5,5))
         
-        ax_2.set_xlim(0, 100)
-        ax_2.set_ylim(0, np.nanmax(freqs_exp['1nn']) * 1.1)
+        # ax_2.set_xlim(0, 100)
+        # ax_2.set_ylim(0, np.nanmax(freqs_exp['1nn']) * 1.5)
+        
+        ax_2.set_xlim(0, nndxlim)
+        ax_2.set_ylim(0, nndylim)
         
         ax_2.set_xlabel('K-th NND (nm)')
         ax_2.set_ylabel('Counts')
         
         ax_2.set_box_aspect(1)
         
-        binsize_exp = 0.5
-        bins_exp = np.arange(0, maxdist, binsize_exp)
         
-        for j in range(4):
+        for j in range(K):
             
             key = str(j+1) + 'nn'
         
-            counts, bin_edges, _ = ax_2.hist(distances_exp[key], bins=bins_exp, 
+            counts, bin_edges, _ = ax_2.hist(distances_exp[key], bins=bins, 
                                              edgecolor='black', linewidth=0.1, 
                                              alpha=0.5, density=True, 
                                              color=colors[j], label=key)
+            
+            if j == 0:
+                
+                ax_2.plot(xxkde, kde(xxkde), 'k--')
+                xmax[i] = xxkde[np.argmax(kde(xxkde))]
         
+                        
     elif i == 1:
         
-        for j in range(4):
+        for j in range(K):
             
             key = str(j+1) + 'nn'
         
             counts, binedges = np.histogram(distances_exp[key], 
-                                            bins=bins_exp, density=True)
+                                            bins=bins, density=True)
                                                 
             ax_2.plot(binedges[:-1], counts, color=colors[j])
             
+            if j == 0:
+                
+                ax_2.plot(xxkde, kde(xxkde), 'k--')
+                xmax[i] = xxkde[np.argmax(kde(xxkde))]
+            
+nnd_peak_shift = (1 - (xmax[1] - xmax[0]) / xmax[1]) * 100
 
+print('NND peak shift (rel. to CSR) is', np.around(nnd_peak_shift, 1), '%')
+
+clustered_fraction_increase = (clustered_fraction[0]/clustered_fraction[1] - 1) * 100
+
+print('Clustered fraction increase (rel. to CSR) is', np.around(clustered_fraction_increase, 1), '%')
+
+            
 fig_0.savefig(results_path + 'nsugars.pdf', format='pdf')
 fig_1.savefig(results_path + 'maxdists.pdf', format='pdf')
 fig_2.savefig(results_path + 'nnds.pdf', format='pdf')
 
 
+final_numbers = {
+    "obs_density (μm^-2)": [np.around(obs_density, 2)],
+    "clustered_fraction (rel. increase in %)": [np.around(clustered_fraction_increase, 2)],
+    "nnd_peak_shift (rel. increase in %) ": [np.around(nnd_peak_shift, 2)]
+}
 
+# Create a DataFrame and save to CSV
+fn = pd.DataFrame(final_numbers)
+fn.to_csv(results_path + 'final_numbers.csv', index=False)
             
             
-
-    
