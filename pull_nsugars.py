@@ -15,8 +15,8 @@ plt.close()
 
 # Directories for ManNAz and GalNAz data
 main_dirs = [
-    '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/ManNAz/ManNAz_combined',
-    '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/GalNAz/GalNAz_combined'
+    '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined',
+    '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
 ]
 
 # Initialize lists to store counts data for each file (for both datasets)
@@ -73,7 +73,7 @@ for main_dir in main_dirs:
     std_counts_nsugars_csr = np.std(all_counts_nsugars_csr, axis=0)
 
     # Append results for each dataset (ManNAz and GalNAz)
-    if main_dir == '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/ManNAz/ManNAz_combined':
+    if main_dir == '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined':
         all_counts_nsugars_manna.append((mean_counts_nsugars, std_counts_nsugars))
         all_counts_nsugars_csr_manna.append((mean_counts_nsugars_csr, std_counts_nsugars_csr))
     else:

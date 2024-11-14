@@ -9,42 +9,14 @@ Created on Tue Oct 22 12:40:39 2024
 import os
 import pandas as pd
 
-# Define the root directory where the folders (e.g., "Filopodia" and "Protrusions") are stored
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/Advanced ROI to analyze/240919_MCF10A'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Full cells analysis/MCF10As'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Full cells analysis/HMECS'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Full cells analysis/aux_remaining_0'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Full cells analysis/aux_remaining_1'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Full cells analysis/aux_remaining_2'
-
-
-
-# root_dir = '//Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Filapodia MCF10As/Random areas'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Filapodia MCF10As/Filopodia'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Glycosylated spherical domains HMECs/Random FOVs'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/main experiments/Glycosylated spherical domains HMECs/Spherical clusters'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/spherical nanodomains'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Homogenous areas/ManNAz'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/High density nanoclusters/GalNAz'
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/High density nanoclusters/ManNAz'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/Spherical MCF10As'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/Homogenous  ROIs'
-
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/High density domains'
+# Define the root directory where the folders are stored
 
 # root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/ManNAz'
 
-root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/GalNAz'
+# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/GalNAz'
 
+root_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz'
 
-# root_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/MCF10As Homogenous  ROIs/'
 
 # Load the external Python script as a string
 analysis_script_path = '/Users/masullo/Documents/GitHub/glycans-resi/integrated_analysis.py'

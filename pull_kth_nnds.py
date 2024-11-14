@@ -12,7 +12,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Set main directory
-main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/ManNAz/ManNAz_combined'
+
+# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
+main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
+
+
 basename = os.path.basename(main_dir)
 dataset = basename.split('_combined')[0]
 print(f"Dataset: {dataset}")
