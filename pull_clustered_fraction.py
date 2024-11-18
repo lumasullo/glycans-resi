@@ -12,11 +12,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 
+# Close all existing figures
+plt.close('all')
+
 # Define the main directories for ManNAz and GalNAz
 dirs = {
     "ManNAz_combined": "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined",
     "GalNAz_combined": "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined"
 }
+
+# Output directory
+output_dir = "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas"
 
 # Initialize dictionaries to store the values
 results = {
@@ -24,116 +30,108 @@ results = {
     "GalNAz_combined": {"clustered_fraction": [], "obs_density": []}
 }
 
-# Iterate through each directory and extract the values
+# Extract values from CSV files
 for label, main_dir in dirs.items():
     for folder_name in sorted(os.listdir(main_dir)):
         folder_path = os.path.join(main_dir, folder_name)
-
-        # Check if the folder is a directory and named with a number
         if os.path.isdir(folder_path) and folder_name.isdigit():
             results_path = os.path.join(folder_path, "integrated_results", "final_numbers.csv")
-
             if os.path.exists(results_path):
                 df = pd.read_csv(results_path)
+                results[label]["clustered_fraction"].append(df["clustered_fraction (rel. increase in %)"].iloc[0])
+                results[label]["obs_density"].append(df["obs_density (μm^-2)"].iloc[0])
 
-                if "clustered_fraction (rel. increase in %)" in df.columns:
-                    clustered_fraction_value = df["clustered_fraction (rel. increase in %)"].iloc[0]
-                    results[label]["clustered_fraction"].append(clustered_fraction_value)
-
-                if "obs_density (μm^-2)" in df.columns:
-                    obs_density_value = df["obs_density (μm^-2)"].iloc[0]
-                    results[label]["obs_density"].append(obs_density_value)
-
-# Calculate the mean and standard deviation for both metrics
+# Calculate mean and standard deviation
 summary_stats = {}
 for label in results.keys():
-    clustered_fraction_values = np.array(results[label]["clustered_fraction"])
-    obs_density_values = np.array(results[label]["obs_density"])
-
+    cf_values = np.array(results[label]["clustered_fraction"])
+    od_values = np.array(results[label]["obs_density"])
     summary_stats[label] = {
-        "mean_clustered_fraction": np.mean(clustered_fraction_values),
-        "std_clustered_fraction": np.std(clustered_fraction_values),
-        "mean_obs_density": np.mean(obs_density_values),
-        "std_obs_density": np.std(obs_density_values),
-        "values_clustered_fraction": clustered_fraction_values,
-        "values_obs_density": obs_density_values
+        "mean_cf": np.mean(cf_values),
+        "std_cf": np.std(cf_values),
+        "mean_od": np.mean(od_values),
+        "std_od": np.std(od_values),
+        "values_cf": cf_values,
+        "values_od": od_values
     }
 
-# Statistical testing (t-test)
+# Statistical tests
 def significance_stars(p_value):
-    if p_value < 0.001:
-        return '***'
-    elif p_value < 0.01:
-        return '**'
-    elif p_value < 0.05:
-        return '*'
-    else:
-        return 'n.s.'
+    return '***' if p_value < 0.001 else '**' if p_value < 0.01 else '*' if p_value < 0.05 else 'n.s.'
 
-# T-test for clustered_fraction
-t_stat_cf, p_val_cf = stats.ttest_ind(
-    summary_stats["ManNAz_combined"]["values_clustered_fraction"],
-    summary_stats["GalNAz_combined"]["values_clustered_fraction"]
-)
-stars_cf = significance_stars(p_val_cf)
+# Two-sample t-tests between ManNAz and GalNAz
+p_val_cf_groups = stats.ttest_ind(
+    summary_stats["ManNAz_combined"]["values_cf"],
+    summary_stats["GalNAz_combined"]["values_cf"]
+).pvalue
+p_val_od_groups = stats.ttest_ind(
+    summary_stats["ManNAz_combined"]["values_od"],
+    summary_stats["GalNAz_combined"]["values_od"]
+).pvalue
 
-# T-test for obs_density
-t_stat_od, p_val_od = stats.ttest_ind(
-    summary_stats["ManNAz_combined"]["values_obs_density"],
-    summary_stats["GalNAz_combined"]["values_obs_density"]
-)
-stars_od = significance_stars(p_val_od)
+# One-sample t-tests against zero
+p_vals_zero = {
+    "ManNAz_cf": stats.ttest_1samp(summary_stats["ManNAz_combined"]["values_cf"], 0).pvalue,
+    "GalNAz_cf": stats.ttest_1samp(summary_stats["GalNAz_combined"]["values_cf"], 0).pvalue,
+    "ManNAz_od": stats.ttest_1samp(summary_stats["ManNAz_combined"]["values_od"], 0).pvalue,
+    "GalNAz_od": stats.ttest_1samp(summary_stats["GalNAz_combined"]["values_od"], 0).pvalue
+}
+
+# Significance stars
+stars_cf_groups = significance_stars(p_val_cf_groups)
+stars_od_groups = significance_stars(p_val_od_groups)
 
 # Plotting
 labels = ['ManNAz', 'GalNAz']
-colors = ['#FF3C38', '#6C8EAD']  # Red for ManNAz, Blue-gray for GalNAz
+colors = ['#FF3C38', '#6C8EAD']
 bar_width = 0.5
 
-# Figure 1: Clustered Fraction Comparison
-fig1, ax1 = plt.subplots(figsize=(7, 7))
-means_clustered_fraction = [summary_stats["ManNAz_combined"]["mean_clustered_fraction"],
-                            summary_stats["GalNAz_combined"]["mean_clustered_fraction"]]
-stds_clustered_fraction = [summary_stats["ManNAz_combined"]["std_clustered_fraction"],
-                           summary_stats["GalNAz_combined"]["std_clustered_fraction"]]
+# Clustered Fraction Plot
+fig1, ax1 = plt.subplots(figsize=(4.5, 6))
+means_cf = [summary_stats["ManNAz_combined"]["mean_cf"], summary_stats["GalNAz_combined"]["mean_cf"]]
+stds_cf = [summary_stats["ManNAz_combined"]["std_cf"], summary_stats["GalNAz_combined"]["std_cf"]]
 
-ax1.bar(labels, means_clustered_fraction, yerr=stds_clustered_fraction, color=colors, capsize=10, width=bar_width)
+bars_cf = ax1.bar(labels, means_cf, yerr=stds_cf, color=colors, capsize=10, width=bar_width)
 ax1.set_ylabel("Clustered Fraction (rel. increase in %)")
-# ax1.set_title("Comparison of Clustered Fraction")
-ax1.spines['top'].set_visible(False)
-ax1.spines['right'].set_visible(False)
+ax1.set_title("Comparison of Clustered Fraction")
 
-# Adjust y-axis limits
-ax1.set_ylim(0, max(means_clustered_fraction) + max(stds_clustered_fraction) * 2)
+# Annotate significance against zero
+for i, (mean, std, key) in enumerate(zip(means_cf, stds_cf, ["ManNAz_cf", "GalNAz_cf"])):
+    stars = significance_stars(p_vals_zero[key])
+    ax1.text(i, mean + std * 1.1, stars, ha='center')
 
-# Add significance stars
-y_max_cf = max(means_clustered_fraction) + max(stds_clustered_fraction)
-ax1.text(0.5, y_max_cf * 1.1, stars_cf, fontsize=15, ha='center', color='black')
-ax1.plot([0, 1], [y_max_cf * 1.05, y_max_cf * 1.05], color='black', linewidth=1.5)
+# Annotate comparison between groups
+y_max_cf = max(means_cf) + max(stds_cf) * 1.4
+ax1.plot([0, 1], [y_max_cf, y_max_cf], color='black')
+ax1.text(0.5, y_max_cf * 1.02, stars_cf_groups, ha='center')
 
-# Figure 2: Observed Density Comparison
-fig2, ax2 = plt.subplots(figsize=(7, 7))
-means_obs_density = [summary_stats["ManNAz_combined"]["mean_obs_density"],
-                     summary_stats["GalNAz_combined"]["mean_obs_density"]]
-stds_obs_density = [summary_stats["ManNAz_combined"]["std_obs_density"],
-                    summary_stats["GalNAz_combined"]["std_obs_density"]]
+# Observed Density Plot
+fig2, ax2 = plt.subplots(figsize=(4.5, 6))
+means_od = [summary_stats["ManNAz_combined"]["mean_od"], summary_stats["GalNAz_combined"]["mean_od"]]
+stds_od = [summary_stats["ManNAz_combined"]["std_od"], summary_stats["GalNAz_combined"]["std_od"]]
 
-ax2.bar(labels, means_obs_density, yerr=stds_obs_density, color=colors, capsize=10, width=bar_width)
+bars_od = ax2.bar(labels, means_od, yerr=stds_od, color=colors, capsize=10, width=bar_width)
 ax2.set_ylabel("Observed Density (μm^-2)")
-# ax2.set_title("Comparison of Observed Density")
-ax2.spines['top'].set_visible(False)
-ax2.spines['right'].set_visible(False)
+ax2.set_title("Comparison of Observed Density")
 
-# Adjust y-axis limits
-ax2.set_ylim(0, max(means_obs_density) + max(stds_obs_density) * 2)
+# Annotate significance against zero
+for i, (mean, std, key) in enumerate(zip(means_od, stds_od, ["ManNAz_od", "GalNAz_od"])):
+    stars = significance_stars(p_vals_zero[key])
+    ax2.text(i, mean + std * 1.1, stars, ha='center')
 
-# Add significance stars
-y_max_od = max(means_obs_density) + max(stds_obs_density)
-ax2.text(0.5, y_max_od * 1.1, stars_od, fontsize=15, ha='center', color='black')
-ax2.plot([0, 1], [y_max_od * 1.05, y_max_od * 1.05], color='black', linewidth=1.5)
+# Annotate comparison between groups
+y_max_od = max(means_od) + max(stds_od) * 1.4
+ax2.plot([0, 1], [y_max_od, y_max_od], color='black')
+ax2.text(0.5, y_max_od * 1.02, stars_od_groups, ha='center')
 
-# Show the plots
-plt.tight_layout()
+# Save figures as PDFs
+fig1.savefig(os.path.join(output_dir, "Clustered_Fraction_Comparison.pdf"), bbox_inches='tight')
+fig2.savefig(os.path.join(output_dir, "Observed_Density_Comparison.pdf"), bbox_inches='tight')
+
 plt.show()
+
+
+
 
 
 
