@@ -86,10 +86,12 @@ labels = ['ManNAz', 'GalNAz']
 colors = ['#FF3C38', '#6C8EAD']
 bar_width = 0.5
 
+K = 40 # number of areas
+
 # Clustered Fraction Plot
 fig1, ax1 = plt.subplots(figsize=(4.5, 6))
 means_cf = [summary_stats["ManNAz_combined"]["mean_cf"], summary_stats["GalNAz_combined"]["mean_cf"]]
-stds_cf = [summary_stats["ManNAz_combined"]["std_cf"], summary_stats["GalNAz_combined"]["std_cf"]]
+stds_cf = [summary_stats["ManNAz_combined"]["std_cf"], summary_stats["GalNAz_combined"]["std_cf"]] / np.sqrt(K)
 
 bars_cf = ax1.bar(labels, means_cf, yerr=stds_cf, color=colors, capsize=10, width=bar_width)
 ax1.set_ylabel("Clustered Fraction (rel. increase in %)")
@@ -108,7 +110,7 @@ ax1.text(0.5, y_max_cf * 1.02, stars_cf_groups, ha='center')
 # Observed Density Plot
 fig2, ax2 = plt.subplots(figsize=(4.5, 6))
 means_od = [summary_stats["ManNAz_combined"]["mean_od"], summary_stats["GalNAz_combined"]["mean_od"]]
-stds_od = [summary_stats["ManNAz_combined"]["std_od"], summary_stats["GalNAz_combined"]["std_od"]]
+stds_od = [summary_stats["ManNAz_combined"]["std_od"], summary_stats["GalNAz_combined"]["std_od"]] / np.sqrt(K)
 
 bars_od = ax2.bar(labels, means_od, yerr=stds_od, color=colors, capsize=10, width=bar_width)
 ax2.set_ylabel("Observed Density (μm^-2)")

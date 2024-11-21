@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 # Set main directory
 
-# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
-main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
+main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
+# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
 
 
 basename = os.path.basename(main_dir)
@@ -77,11 +77,11 @@ labels = ['1NN', '2NN', '3NN', '4NN']
 binsize = 0.3
 maxdist = 100
 nndxlim = 30
-nndylim = 0.09
+nndylim = 0.08
 bins = np.arange(0, maxdist, binsize)
 
 # Merged Histograms for Data and CSR (Line Plots for CSR)
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(9, 4))
 
 ax.set_xlim(0, nndxlim)
 ax.set_ylim(0, nndylim)
@@ -108,7 +108,7 @@ for idx, metric in enumerate(distance_metrics):
         ax.plot(bin_centers, counts, label=f'{labels[idx]} CSR', color=color, linewidth=2)
 
 # Add legends
-ax.legend()
+# ax.legend()
 
 # Show plots
 plt.tight_layout()
