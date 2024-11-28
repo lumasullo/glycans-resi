@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 # Set main directory
 
-main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
-# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
+# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
+main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
 
 
 basename = os.path.basename(main_dir)
@@ -74,7 +74,7 @@ combined_distances_csr = {metric: np.concatenate(all_distances_csr[metric]) if a
 # Plot settings
 colors = ['#2880C4', '#F4B942', '#D9534F', '#5CB85C']  # Colors for NN1, NN2, NN3, NN4
 labels = ['1NN', '2NN', '3NN', '4NN']
-binsize = 0.3
+binsize = 0.25
 maxdist = 100
 nndxlim = 30
 nndylim = 0.08
@@ -88,6 +88,7 @@ ax.set_ylim(0, nndylim)
 ax.set_xlabel('NND (nm)')
 ax.set_ylabel('Frequency')
 ax.set_title(f'Merged Histogram - Data and CSR')
+ax.tick_params(axis='both', which='both', direction='in')
 
 # Iterate through each nearest neighbor metric
 for idx, metric in enumerate(distance_metrics):

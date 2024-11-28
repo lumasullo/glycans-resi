@@ -125,7 +125,8 @@ ax.bar(
     yerr=std_manna[2:6] / np.sqrt(K), 
     label='ManNAz', 
     color=colors['manna_nsugars'], 
-    capsize=3
+    capsize=3,
+    clip_on=True
 )
 
 # Plot CSR bars for ManNAz
@@ -137,7 +138,8 @@ ax.bar(
     yerr=std_manna_csr[2:6] / np.sqrt(K), 
     label='ManNAz CSR', 
     color=colors['manna_nsugars_csr'], 
-    capsize=3
+    capsize=3,
+    clip_on=True
 )
 
 # Plot bars for GalNAz
@@ -149,7 +151,8 @@ ax.bar(
     yerr=std_galna[2:6] / np.sqrt(K), 
     label='GalNAz', 
     color=colors['galna_nsugars'], 
-    capsize=3
+    capsize=3,
+    clip_on=True
 )
 
 # Plot CSR bars for GalNAz
@@ -161,7 +164,8 @@ ax.bar(
     yerr=std_galna_csr[2:6] / np.sqrt(K), 
     label='GalNAz CSR', 
     color=colors['galna_nsugars_csr'], 
-    capsize=3
+    capsize=3,
+    clip_on=True
 )
 
 
@@ -177,12 +181,19 @@ ax.set_ylabel('Counts')
 # Set x-axis ticks and labels
 ax.set_xticks(x)
 ax.set_xticklabels(n_values, fontsize=12)
+ax.tick_params(axis='both', which='both', direction='in')
+
+ax.spines['bottom'].set_clip_on(True)
+ax.spines['left'].set_clip_on(True)
 
 # Combine the legends for the labels
 ax.legend()
 
 plt.tight_layout()
 plt.show()
+
+outputdir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/'
+fig.savefig(outputdir + 'cluster2345.svg', format='svg', bbox_inches='tight')
 
 
 

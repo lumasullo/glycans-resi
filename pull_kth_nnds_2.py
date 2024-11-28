@@ -68,7 +68,7 @@ def calculate_kde_max_position(data, bins):
     return max_position
 
 # Parameters for KDE and bootstrap
-binsize = 0.3
+binsize = 0.25
 bins = np.arange(0, 100, binsize)
 bootstrap_samples = 5
 
