@@ -80,6 +80,10 @@ for main_dir in main_dirs:
         all_counts_nsugars_galna.append((mean_counts_nsugars, std_counts_nsugars))
         all_counts_nsugars_csr_galna.append((mean_counts_nsugars_csr, std_counts_nsugars_csr))
 
+# Plotting
+fig, ax = plt.subplots(figsize=(6, 5))
+
+delta_plot = 0.05
 
 # Define colors for easy modification
 # colors = {
@@ -96,104 +100,62 @@ colors = {
     'galna_nsugars_csr': '#6C8EAD'  # Light gray for GalNAz CSR
 }
 
-K = 40 # change to 41 or the actual number of areas used if s.e.m. is desired
+K = 1 # change to 41 or the actual number of areas used if s.e.m. is desired
 
-# Plotting
-fig, ax = plt.subplots(figsize=(6, 5))
+# Plot mean counts with error bars for ManNAz (nsugars)
+for i, (mean_counts, std_counts) in enumerate(all_counts_nsugars_manna):
+    ax.errorbar(
+        bin_edges_nsugars[:-1] + delta_plot, mean_counts, yerr=std_counts/np.sqrt(K), fmt='-o', 
+        color=colors['manna_nsugars'], label='ManNAz data', capsize=3
+    )
 
-# Define bar width
-bar_width = 0.4
+# Plot solid markers with transparency for ManNAz (nsugars_csr)
+for i, (mean_counts, std_counts) in enumerate(all_counts_nsugars_csr_manna):
+    ax.errorbar(
+        bin_edges_nsugars_csr[:-1] + delta_plot, mean_counts, yerr=std_counts/np.sqrt(K), fmt='--^', 
+        color=colors['manna_nsugars_csr'], alpha=0.7, label='ManNAz CSR', capsize=3
+    )
 
-# Positions for each group of bars
-n_values = [2, 3, 4, 5]  # Bin edges for N sugars per cluster
-x = np.arange(len(n_values))  # Positions for bar groups
+# Plot mean counts with error bars for GalNAz (nsugars)
+for i, (mean_counts, std_counts) in enumerate(all_counts_nsugars_galna):
+    ax.errorbar(
+        bin_edges_nsugars[:-1] - delta_plot, mean_counts, yerr=std_counts/np.sqrt(K), fmt='-o', 
+        color=colors['galna_nsugars'], label='GalNAz data', capsize=3
+    )
 
-# Define alternative colors for CSR bars
-colors = {
-    'manna_nsugars': '#FF3C38',       # Original red for ManNAz
-    'manna_nsugars_csr': '#FF9999',  # Lighter red for ManNAz CSR
-    'galna_nsugars': '#6C8EAD',      # Original blue for GalNAz
-    'galna_nsugars_csr': '#99CCFF'   # Lighter blue for GalNAz CSR
-}
-
-# Plot bars for ManNAz
-mean_manna, std_manna = all_counts_nsugars_manna[0]
-ax.bar(
-    x - bar_width / 2, 
-    mean_manna[2:6], 
-    bar_width, 
-    yerr=std_manna[2:6] / np.sqrt(K), 
-    label='ManNAz', 
-    color=colors['manna_nsugars'], 
-    capsize=3,
-    clip_on=True
-)
-
-# Plot CSR bars for ManNAz
-mean_manna_csr, std_manna_csr = all_counts_nsugars_csr_manna[0]
-ax.bar(
-    x - bar_width / 2, 
-    mean_manna_csr[2:6], 
-    bar_width, 
-    yerr=std_manna_csr[2:6] / np.sqrt(K), 
-    label='ManNAz CSR', 
-    color=colors['manna_nsugars_csr'], 
-    capsize=3,
-    clip_on=True
-)
-
-# Plot bars for GalNAz
-mean_galna, std_galna = all_counts_nsugars_galna[0]
-ax.bar(
-    x + bar_width / 2, 
-    mean_galna[2:6], 
-    bar_width, 
-    yerr=std_galna[2:6] / np.sqrt(K), 
-    label='GalNAz', 
-    color=colors['galna_nsugars'], 
-    capsize=3,
-    clip_on=True
-)
-
-# Plot CSR bars for GalNAz
-mean_galna_csr, std_galna_csr = all_counts_nsugars_csr_galna[0]
-ax.bar(
-    x + bar_width / 2, 
-    mean_galna_csr[2:6], 
-    bar_width, 
-    yerr=std_galna_csr[2:6] / np.sqrt(K), 
-    label='GalNAz CSR', 
-    color=colors['galna_nsugars_csr'], 
-    capsize=3,
-    clip_on=True
-)
-
+# Plot solid markers with transparency for GalNAz (nsugars_csr)
+for i, (mean_counts, std_counts) in enumerate(all_counts_nsugars_csr_galna):
+    ax.errorbar(
+        bin_edges_nsugars_csr[:-1] - delta_plot, mean_counts, yerr=std_counts/np.sqrt(K), fmt='--^', 
+        color=colors['galna_nsugars_csr'], alpha=0.7, label='GalNAz CSR', capsize=3
+    )
 
 # Set y-axis to logarithmic scale
 ax.set_yscale('log')
 
 # Plot settings
-ax.set_xlim(-0.5, len(x) - 0.5)  # Adjust x-axis limits
-ax.set_ylim(1e-4, 1)  # Adjust y-axis limits based on your data
+ax.set_xlim(1.8, 5.2)
+ax.set_ylim(1e-4, 1)
 ax.set_xlabel('N sugars per cluster')
 ax.set_ylabel('Counts')
 
-# Set x-axis ticks and labels
-ax.set_xticks(x)
-ax.set_xticklabels(n_values, fontsize=12)
-ax.tick_params(axis='both', which='both', direction='in')
-
-ax.spines['bottom'].set_clip_on(True)
-ax.spines['left'].set_clip_on(True)
+# Set x-axis ticks at 2, 3, 4, 5 and format them as integers
+ax.set_xticks([2, 3, 4, 5])
+ax.set_xticklabels([2, 3, 4, 5], fontsize=12)
+# ax.set_title('Mean Counts with Standard Deviation')
 
 # Combine the legends for the labels
 ax.legend()
 
-plt.tight_layout()
 plt.show()
 
-outputdir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/'
-fig.savefig(outputdir + 'cluster2345.svg', format='svg', bbox_inches='tight')
+integrated_csr_manna = all_counts_nsugars_csr_manna[0][0][2:-2].sum()
+integrated_manna = all_counts_nsugars_manna[0][0][2:-2].sum()
 
+delta_manna = integrated_manna/integrated_csr_manna
 
+integrated_csr_galna = all_counts_nsugars_csr_galna[0][0][2:-2].sum()
+integrated_galna = all_counts_nsugars_galna[0][0][2:-2].sum()
+
+delta_galna = integrated_galna/integrated_csr_galna
 

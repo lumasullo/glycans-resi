@@ -115,6 +115,6 @@ for idx, metric in enumerate(distance_metrics):
 plt.tight_layout()
 plt.show()
 
-fig.savefig(main_dir + '/output.pdf', format='pdf', bbox_inches='tight', pad_inches=0.1, transparent=True)
+fig.savefig(main_dir + '/kth_nnds.pdf', format='pdf', bbox_inches='tight', pad_inches=0.1, transparent=True)
 
 

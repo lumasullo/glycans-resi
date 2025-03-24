@@ -39,7 +39,7 @@ Load experimental data
 # filename = r'target_picked.hdf5'
 
 # #240618_HMEC GalNAz
-path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240618_HMEC/RESI_GalNAz/workflow_analysis/00_cluster_241007-1052/00_cluster_aggregation_241007-1052/04_save_datasets_aggregated/'
+# path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240618_HMEC/RESI_GalNAz/workflow_analysis/00_cluster_241007-1052/00_cluster_aggregation_241007-1052/04_save_datasets_aggregated/'
 filename = r'target_picked.hdf5'
 
 # path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240617HMECmannaz/1/'
@@ -52,8 +52,22 @@ filename = r'target_picked.hdf5'
 
 px = 130
 
+"""
+===============================================================================
+Parameters for DBSCAN
+===============================================================================
+"""
 
-# Parameters that we might want to change
+epsilon_nm = 10
+epsilon_px = epsilon_nm/px
+minpts = 1
+
+
+"""
+===============================================================================
+Parameters for NND
+===============================================================================
+"""
 
 K = 4 # number of NNDs to be calculated
 binsize = 0.3 # bin size for NND
@@ -61,9 +75,11 @@ binsize = 0.3 # bin size for NND
 nndxlim = 10 # lim of x coord. for NND plot in nm
 nndylim = 0.25 # lim of y coord. for NND plot
 
+
+
 # create subfolder for results
 
-results_path = os.path.join(os.path.dirname(filepath), 'integrated_results/')
+results_path = os.path.join(os.path.dirname(filepath), 'integrated_results' + '_e_' + str(epsilon_nm) + 'nm' + '/')
 try:
     os.mkdir(results_path)
 
@@ -140,16 +156,6 @@ for i, df in enumerate([df_exp, df_sim]):
     print(i)
     # print(df)
     
-
-    """
-    ===============================================================================
-    Parameters for DBSCAN
-    ===============================================================================
-    """
-    
-    epsilon_nm = 10
-    epsilon_px = epsilon_nm/px
-    minpts = 1
     
     """
     ===============================================================================
