@@ -34,12 +34,18 @@ Load experimental data
 ===============================================================================
 """
 
-# 240617_HMEC ManNAz
+# # 240617_HMEC ManNAz
 # path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240617_HMEC/RESI_ManNAz/workflow_analysis/00_cluster_241009-1223/00_cluster_aggregation_241009-1223/04_save_datasets_aggregated/'
+# filename = r'target_picked.hdf5'
+
+# #240618_HMEC GalNAz
+path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240618_HMEC/RESI_GalNAz/workflow_analysis/00_cluster_241007-1052/00_cluster_aggregation_241007-1052/04_save_datasets_aggregated/'
 filename = r'target_picked.hdf5'
 
 # path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240617HMECmannaz/1/'
 # path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/Homogenous areas/GalNAz/1/'
+
+# path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/HMECs Homogenous areas/ManNAz/240617_ManNAz/1/'
 # filename = 'target_picked.hdf5'
 
 # filepath = path + filename # comment / uncomment this line for batch analysis or single analysis respectively
@@ -133,7 +139,7 @@ for i, df in enumerate([df_exp, df_sim]):
     
     print(i)
     # print(df)
-
+    
 
     """
     ===============================================================================
@@ -156,16 +162,13 @@ for i, df in enumerate([df_exp, df_sim]):
     #     'epsilon': epsilon_px,
     #     'minpts': minpts
     #     }
-    
+        
     db_clusters = dbscan.dbscan_f(df, epsilon_px, minpts)
     
-    info = io.load_info(filepath.replace('.hdf5', f'.yaml'))
+    db_clusters_df = pd.DataFrame.from_records(db_clusters) # convert to an aux dataframe to add the "nsugars in cluster" column
     
-    # save locs in dbscan cluster with colorcoding = protein ID
-    dbscan_filename = '%s_dbscan_%s_%d.hdf5' % (filename.replace('.hdf5', ''), str(epsilon_nm), minpts)
-    io.save_locs(results_path + dbscan_filename, db_clusters, info)
-    
-    
+    db_clusters_df['nsugars_in_cluster'] =  db_clusters_df.shape[0] * [-1] # -1 means identity not assigned
+
     """
     ===============================================================================
     Analysis on each cluster (sugar counts, max distance, etc)
@@ -188,12 +191,24 @@ for i, df in enumerate([df_exp, df_sim]):
         
         cluster_size.append(nsugars)
         
+        db_clusters_df.loc[db_clusters_df['group'] == j, 'nsugars_in_cluster'] = nsugars # add the "nsugars in cluster" column
+        
         if nsugars > 2:
         
             pairwise_distances = pdist(sugars.T)
             maxdist = np.max(pairwise_distances)
             
             maxdist_list.append(maxdist)
+            
+    if i == 0:
+    
+        info = io.load_info(filepath.replace('.hdf5', f'.yaml'))
+        
+        db_clusters = db_clusters_df.to_records(index=False) # convert back to recarray
+        
+        # save locs in dbscan cluster with colorcoding = protein ID
+        dbscan_filename = '%s_dbscan_%s_%d.hdf5' % (filename.replace('.hdf5', ''), str(epsilon_nm), minpts)
+        io.save_locs(results_path + dbscan_filename, db_clusters, info)
     
     """
     ===============================================================================

@@ -125,7 +125,8 @@ ax.bar(
     yerr=std_manna[2:6] / np.sqrt(K), 
     label='ManNAz', 
     color=colors['manna_nsugars'], 
-    capsize=3
+    capsize=3,
+    bottom = 1e-4
 )
 
 # Plot CSR bars for ManNAz
@@ -137,7 +138,8 @@ ax.bar(
     yerr=std_manna_csr[2:6] / np.sqrt(K), 
     label='ManNAz CSR', 
     color=colors['manna_nsugars_csr'], 
-    capsize=3
+    capsize=3,
+    bottom = 1e-4
 )
 
 # Plot bars for GalNAz
@@ -149,7 +151,8 @@ ax.bar(
     yerr=std_galna[2:6] / np.sqrt(K), 
     label='GalNAz', 
     color=colors['galna_nsugars'], 
-    capsize=3
+    capsize=3,
+    bottom = 1e-4
 )
 
 # Plot CSR bars for GalNAz
@@ -161,7 +164,8 @@ ax.bar(
     yerr=std_galna_csr[2:6] / np.sqrt(K), 
     label='GalNAz CSR', 
     color=colors['galna_nsugars_csr'], 
-    capsize=3
+    capsize=3,
+    bottom = 1e-4
 )
 
 

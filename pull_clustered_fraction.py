@@ -84,7 +84,7 @@ stars_od_groups = significance_stars(p_val_od_groups)
 # Plotting
 labels = ['ManNAz', 'GalNAz']
 colors = ['#FF3C38', '#6C8EAD']
-bar_width = 0.5
+bar_width = 0.8
 
 K = 40 # number of areas
 
@@ -129,6 +129,9 @@ ax2.text(0.5, y_max_od * 1.02, stars_od_groups, ha='center')
 # Save figures as PDFs
 fig1.savefig(os.path.join(output_dir, "Clustered_Fraction_Comparison.pdf"), bbox_inches='tight')
 fig2.savefig(os.path.join(output_dir, "Observed_Density_Comparison.pdf"), bbox_inches='tight')
+
+ax1.tick_params(direction='in')
+ax2.tick_params(direction='in')
 
 plt.show()
 

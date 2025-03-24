@@ -34,9 +34,9 @@ from scipy.stats import gaussian_kde
 
 # main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/High density domains/240820_MCF10AT'
 
-main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
+# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
 
-# main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
+main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
 
 # main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/MCF10As Homogenous  ROIs/MCF10A_combined'
 
@@ -216,7 +216,7 @@ ax_1.set_xlabel('2nd NND (nm)')
 ax_1.set_ylabel('Freq.')
 ax_1.set_box_aspect(1)
 
-ax_1.set_title('1st NND histogram - ' + dataset)
+ax_1.set_title('2nd NND histogram - ' + dataset)
 
 
 # Define the range of interest for integration (0 to 10 nm)
@@ -236,7 +236,7 @@ area_uncertainty = np.trapz(std_heights_distances[indices_within_range] + std_he
 # Plotting the mean curves with shaded area between them in the range of 0 to 10 nm
 fig_2, ax_2 = plt.subplots()
 
-ax_2.set_title('1st NND histogram and area - ' + dataset)
+ax_2.set_title('2nd NND histogram and area - ' + dataset)
 
 # Plot for all_1nn_arrays_distances
 ax_2.plot(bin_centers, mean_heights_distances, linestyle='-', color=colors[0], label='Mean Height (distances)')
