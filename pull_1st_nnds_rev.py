@@ -127,52 +127,6 @@ bins = np.arange(0, maxdist, binsize)
 data_distances = combined_1nn_array_distances
 data_distances_csr = combined_1nn_array_distances_csr
 
-# Histogram and KDE for combined_1nn_array_distances
-freqs_exp_distances, binedges_distances = np.histogram(data_distances, bins=bins, density=True)
-bin_centers_exp_distances = (binedges_distances[:-1] + binedges_distances[1:]) / 2
-
-# Histogram and KDE for combined_1nn_array_distances_csr
-freqs_exp_distances_csr, binedges_distances_csr = np.histogram(data_distances_csr, bins=bins, density=True)
-bin_centers_exp_distances_csr = (binedges_distances_csr[:-1] + binedges_distances_csr[1:]) / 2
-
-# KDE for both datasets
-xxkde = np.linspace(0, 200, 2000)
-kde_distances = gaussian_kde(data_distances, bw_method=0.1)
-kde_distances_csr = gaussian_kde(data_distances_csr, bw_method=0.1)
-
-# Plotting
-fig_0, ax_0 = plt.subplots(figsize=(5, 5))
-
-# General plot settings
-ax_0.set_xlim(0, nndxlim)
-ax_0.set_ylim(0, nndylim)
-ax_0.set_xlabel('1st NND (nm)')
-ax_0.set_ylabel('Freq.')
-ax_0.set_box_aspect(1)
-
-# Histogram and KDE plot for data_distances
-counts, bin_edges, _ = ax_0.hist(data_distances, bins=bins, edgecolor='black', linewidth=0.1,
-                                 alpha=0.5, density=True, color=colors[0], label='data')
-ax_0.plot(xxkde, kde_distances(xxkde), linestyle='--', color=colors[0])
-
-# Histogram and KDE plot for data_distances_csr
-counts_csr, bin_edges_csr, _ = ax_0.hist(data_distances_csr, bins=bins, edgecolor='black', linewidth=0.1,
-                                         alpha=0.2, density=True, color=colors[1], label='CSR')
-ax_0.plot(xxkde, kde_distances_csr(xxkde), linestyle='--', color=colors[1])
-
-# Adding legend for clarity
-ax_0.legend()
-
-# Display the plot
-plt.show()
-
-
-"""
-===============================================================================
-3. NND analysis with mean and std error of the mean for the histogram
-===============================================================================
-"""
-
 # Function to calculate mean and std heights for a list of arrays
 def calculate_mean_std_histograms(data_list, bins, N):
     histograms = []
@@ -219,59 +173,6 @@ ax_1.set_box_aspect(1)
 ax_1.set_title('1st NND histogram - ' + dataset)
 
 
-# Define the range of interest for integration (0 to 10 nm)
-range_min, range_max = 0, 10
-
-# Find the indices of bin_centers that fall within this range
-indices_within_range = np.where((bin_centers >= range_min) & (bin_centers <= range_max))[0]
-
-# Calculate the integrated area between the mean curves within the 0-10 nm range
-area_between_means = np.trapz(np.abs(mean_heights_distances[indices_within_range] - mean_heights_distances_csr[indices_within_range]), 
-                              bin_centers[indices_within_range])
-
-# Calculate the uncertainty by integrating the area between the std deviation curves within the 0-10 nm range
-area_uncertainty = np.trapz(std_heights_distances[indices_within_range] + std_heights_distances_csr[indices_within_range], 
-                            bin_centers[indices_within_range])
-
-# Plotting the mean curves with shaded area between them in the range of 0 to 10 nm
-fig_2, ax_2 = plt.subplots()
-
-ax_2.set_title('1st NND histogram and area - ' + dataset)
-
-# Plot for all_1nn_arrays_distances
-ax_2.plot(bin_centers, mean_heights_distances, linestyle='-', color=colors[0], label='Mean Height (distances)')
-ax_2.plot(bin_centers, mean_heights_distances + std_heights_distances, linestyle='--', color=colors[0], label='+1 Std Dev (distances)')
-ax_2.plot(bin_centers, mean_heights_distances - std_heights_distances, linestyle='--', color=colors[0], label='-1 Std Dev (distances)')
-
-# Plot for all_1nn_arrays_distances_csr
-ax_2.plot(bin_centers, mean_heights_distances_csr, linestyle='-', color=colors[1], label='Mean Height (distances_csr)')
-ax_2.plot(bin_centers, mean_heights_distances_csr + std_heights_distances_csr, linestyle='--', color=colors[1], label='+1 Std Dev (distances_csr)')
-ax_2.plot(bin_centers, mean_heights_distances_csr - std_heights_distances_csr, linestyle='--', color=colors[1], label='-1 Std Dev (distances_csr)')
-
-# Add light gray shading between the two mean curves within the 0-10 nm range
-ax_2.fill_between(bin_centers[indices_within_range],
-                  mean_heights_distances[indices_within_range],
-                  mean_heights_distances_csr[indices_within_range],
-                  color='lightgray', alpha=0.4)
-
-# General plot settings
-ax_2.set_xlim(0, nndxlim)
-ax_2.set_ylim(0, nndylim)
-ax_2.set_xlabel('1st NND (nm)')
-ax_2.set_ylabel('Freq.')
-ax_2.set_box_aspect(1)
-
-# Plotting the integrated area with uncertainty as a bar plot
-fig_3, ax_3 = plt.subplots()
-
-ax_3.bar(['Integrated Area (0-10 nm)'], [area_between_means], yerr=[area_uncertainty], color='gray', alpha=0.7, capsize=10, width=0.3)
-ax_3.set_ylabel('Integrated Area')
-ax_3.set_title('Integrated Area between Mean Curves (0-10 nm) - ' + dataset)
-ax_3.set_xlim(-0.5, 0.5)
-ax_3.set_ylim(0, 0.27)
-ax_3.set_box_aspect(1)
-
-
 plt.show()
 
 save_path = main_dir
@@ -280,7 +181,5 @@ save_path = main_dir
 fig_1.savefig(os.path.join(save_path, 'fig_1.pdf'), format='pdf')
 fig_2.savefig(os.path.join(save_path, 'fig_2.pdf'), format='pdf')
 fig_3.savefig(os.path.join(save_path, 'fig_3.pdf'), format='pdf')
-
-
 
 
