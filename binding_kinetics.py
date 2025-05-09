@@ -84,13 +84,16 @@ for idx, filename in enumerate(filenames):
     n_binding_events = np.array(n_binding_events)
     n_binding_events = n_binding_events[n_binding_events < 50] # filter for outliers
     
-    axes[idx].hist(n_binding_events, bins=range(0, 50), alpha=0.5, density=True, edgecolor='black', linewidth=0.5)
+    axes[idx].hist(n_binding_events, bins=range(0, 50), alpha=0.5, density=True, 
+                   color='#3767E1', edgecolor='black', linewidth=0.5)
     axes[idx].set_title(f'R{idx + 1}')
     axes[idx].set_xlabel('Number of Binding Events')
     axes[idx].set_ylabel('Density')
     
     axes[idx].set_xlim(0, 40)
     axes[idx].set_ylim(0, 0.23)
+    
+    axes[idx].tick_params(direction='in', length=2, width=1)
     
     n_mean, n_std = np.mean(n_binding_events), np.std(n_binding_events)    
     n_median = np.median(n_binding_events)

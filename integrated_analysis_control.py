@@ -40,7 +40,7 @@ Load experimental data
 
 # #240618_HMEC GalNAz
 # path = r'/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240618_HMEC/RESI_GalNAz/workflow_analysis/00_cluster_241007-1052/00_cluster_aggregation_241007-1052/04_save_datasets_aggregated/'
-filename = r'target_picked.hdf5'
+# filename = r'target_picked.hdf5'
 
 # path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240617HMECmannaz/1/'
 # path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/Homogenous areas/GalNAz/1/'
@@ -49,11 +49,11 @@ filename = r'target_picked.hdf5'
 # filename = 'target_picked.hdf5'
 
 # control
-# path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240617_HMEC/Controls/DNA PAINT R3 no azide/R3_125pM_35mW_1/'
-# filename = r'R3_125pM_35mW_1_MMStack_Pos0.ome_locs_picked_clustered_centers.hdf5'
+path = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/240617_HMEC/Controls/DNA PAINT R3 no azide/R3_125pM_35mW_1/'
+filename = r'R3_125pM_35mW_1_MMStack_Pos0.ome_locs_picked_clustered_centers.hdf5'
 
 
-# filepath = path + filename # comment / uncomment this line for batch analysis or single analysis respectively
+filepath = path + filename # comment / uncomment this line for batch analysis or single analysis respectively
 
 px = 130
 
@@ -75,10 +75,10 @@ Parameters for NND
 """
 
 K = 4 # number of NNDs to be calculated
-binsize = 0.3 # bin size for NND
+binsize = 10 # bin size for NND
 
-nndxlim = 10 # lim of x coord. for NND plot in nm
-nndylim = 0.25 # lim of y coord. for NND plot
+nndxlim = 300 # lim of x coord. for NND plot in nm
+nndylim = 0.01 # lim of y coord. for NND plot
 
 
 
@@ -413,10 +413,10 @@ for i, df in enumerate([df_exp, df_sim]):
                                              alpha=0.5, density=True, 
                                              color=colors[j], label=key)
             
-            if j == 0:
+            # if j == 0:
                 
-                ax_2.plot(xxkde, kde(xxkde), 'k--')
-                xmax[i] = xxkde[np.argmax(kde(xxkde))]
+            #     ax_2.plot(xxkde, kde(xxkde), 'k--')
+            #     xmax[i] = xxkde[np.argmax(kde(xxkde))]
         
                         
     elif i == 1:
@@ -430,10 +430,10 @@ for i, df in enumerate([df_exp, df_sim]):
                                                 
             ax_2.plot(binedges[:-1], counts, color=colors[j])
             
-            if j == 0:
+            # if j == 0:
                 
-                ax_2.plot(xxkde, kde(xxkde), 'k--')
-                xmax[i] = xxkde[np.argmax(kde(xxkde))]
+            #     ax_2.plot(xxkde, kde(xxkde), 'k--')
+            #     xmax[i] = xxkde[np.argmax(kde(xxkde))]
             
 nnd_peak_shift = (1 - (xmax[1] - xmax[0]) / xmax[1]) * 100
 
