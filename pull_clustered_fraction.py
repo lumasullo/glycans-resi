@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 14 17:33:02 2024
+Created on Tue Mar 25 14:06:37 2025
 
 @author: masullo
 """
@@ -18,21 +18,11 @@ plt.close('all')
 
 results_folder_name = "integrated_results_e_10nm"
 
-
 # Define the main directories for ManNAz and GalNAz
-# dirs = {
-#     "ManNAz_combined": "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined",
-#     "GalNAz_combined": "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined"
-# }
-
 dirs = {
     "ManNAz_combined": "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/z.for_revisions/ManNAz/ManNAz_combined",
     "GalNAz_combined": "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/z.for_revisions/GalNAz/GalNAz_combined"
 }
-
-
-# Output directory
-# output_dir = "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas"
 
 # Output directory
 output_dir = "/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/z.for_revisions"
@@ -42,7 +32,6 @@ results = {
     "ManNAz_combined": {"clustered_fraction": [], "obs_density": []},
     "GalNAz_combined": {"clustered_fraction": [], "obs_density": []}
 }
-
 
 # Extract values from CSV files
 for label, main_dir in dirs.items():
@@ -95,12 +84,25 @@ p_vals_zero = {
 stars_cf_groups = significance_stars(p_val_cf_groups)
 stars_od_groups = significance_stars(p_val_od_groups)
 
+# Correlation calculation
+correlations = {}
+for label in results.keys():
+    cf_values = np.array(results[label]["clustered_fraction"])
+    od_values = np.array(results[label]["obs_density"])
+    
+    corr_coefficient, p_value_corr = stats.pearsonr(cf_values, od_values)
+    correlations[label] = {
+        "correlation_coefficient": corr_coefficient,
+        "p_value_corr": p_value_corr,
+        "significance": significance_stars(p_value_corr)
+    }
+
 # Plotting
 labels = ['ManNAz', 'GalNAz']
 colors = ['#FF3C38', '#6C8EAD']
 bar_width = 0.8
 
-K = 40 # number of areas
+K = 40  # number of areas
 
 # Clustered Fraction Plot
 fig1, ax1 = plt.subplots(figsize=(4.5, 6))
@@ -140,15 +142,30 @@ y_max_od = max(means_od) + max(stds_od) * 1.4
 ax2.plot([0, 1], [y_max_od, y_max_od], color='black')
 ax2.text(0.5, y_max_od * 1.02, stars_od_groups, ha='center')
 
+# Scatter Plot for Correlation
+fig3, ax3 = plt.subplots(figsize=(6, 6))
+ax3.scatter(summary_stats["ManNAz_combined"]["values_od"], summary_stats["ManNAz_combined"]["values_cf"], color='#FF3C38', label="ManNAz")
+ax3.scatter(summary_stats["GalNAz_combined"]["values_od"], summary_stats["GalNAz_combined"]["values_cf"], color='#6C8EAD', label="GalNAz")
+
+ax3.set_xlabel("Observed Density (μm^-2)")
+ax3.set_ylabel("Clustered Fraction (rel. increase in %)")
+ax3.set_title("Scatter Plot of Density vs Clustered Fraction")
+ax3.legend()
+
+# Annotate correlation coefficient and significance
+ax3.text(0.5, 0.95, f"ManNAz r = {correlations['ManNAz_combined']['correlation_coefficient']:.2f} ({correlations['ManNAz_combined']['significance']})", transform=ax3.transAxes, ha='center')
+ax3.text(0.5, 0.90, f"GalNAz r = {correlations['GalNAz_combined']['correlation_coefficient']:.2f} ({correlations['GalNAz_combined']['significance']})", transform=ax3.transAxes, ha='center')
+
 # Save figures as PDFs
 fig1.savefig(os.path.join(output_dir, "Clustered_Fraction_Comparison.pdf"), bbox_inches='tight')
 fig2.savefig(os.path.join(output_dir, "Observed_Density_Comparison.pdf"), bbox_inches='tight')
+fig3.savefig(os.path.join(output_dir, "Scatter_Plot_Correlation.pdf"), bbox_inches='tight')
 
 ax1.tick_params(direction='in')
 ax2.tick_params(direction='in')
+ax3.tick_params(direction='in')
 
 plt.show()
-
 
 
 
