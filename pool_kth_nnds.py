@@ -72,7 +72,14 @@ combined_distances_csr = {metric: np.concatenate(all_distances_csr[metric]) if a
                           for metric in distance_metrics}
 
 # Plot settings
-colors = ['#2880C4', '#F4B942', '#D9534F', '#5CB85C']  # Colors for NN1, NN2, NN3, NN4
+
+# yellow, #F0E442, 240, 228, 66 ; blue, #0072B2, 0, 114, 178 ; vermilion, #D55E00, 213, 94, 0 ; reddish purple, #CC79A7, 204, 121, 167
+
+
+# colors = ['#2880C4', '#F4B942', '#D9534F', '#5CB85C']  # Colors for NN1, NN2, NN3, NN4
+# colors = ['#E69F00', '#56B4E9', '#009E73', '#F0E442']
+colors = ['#2880C4', '#F4B942', '#D9534F', '#009E73']  # Colors for NN1, NN2, NN3, NN4
+
 labels = ['1NN', '2NN', '3NN', '4NN']
 binsize = 0.25
 maxdist = 100
@@ -116,5 +123,67 @@ plt.tight_layout()
 plt.show()
 
 fig.savefig(main_dir + '/kth_nnds.pdf', format='pdf', bbox_inches='tight', pad_inches=0.1, transparent=True)
+
+# === Save combined data (raw) ===
+
+data_save_path = os.path.join(main_dir, 'combined_distances_data_only.csv')
+rows_data = []
+
+for metric in distance_metrics:
+    for val in combined_distances[metric]:
+        rows_data.append({'metric': metric, 'value': val})
+
+df_data = pd.DataFrame(rows_data)
+df_data.to_csv(data_save_path, index=False)
+print(f"Saved raw data to {data_save_path}")
+
+# === Save CSR line plot data (bin centers + density) ===
+
+csr_save_path = os.path.join(main_dir, 'csr_line_data.csv')
+rows_csr = []
+
+for metric in distance_metrics:
+    csr_vals = combined_distances_csr[metric]
+    if len(csr_vals) > 0:
+        counts, _ = np.histogram(csr_vals, bins=bins, density=True)
+        bin_centers = (bins[:-1] + bins[1:]) / 2
+        for x, y in zip(bin_centers, counts):
+            rows_csr.append({'metric': metric, 'bin_center': x, 'density': y})
+
+df_csr = pd.DataFrame(rows_csr)
+df_csr.to_csv(csr_save_path, index=False)
+print(f"Saved CSR line plot data to {csr_save_path}")
+
+# === Reload and replot from saved CSVs ===
+
+df_data_loaded = pd.read_csv(data_save_path)
+df_csr_loaded = pd.read_csv(csr_save_path)
+
+fig, ax = plt.subplots(figsize=(9, 4))
+ax.set_xlim(0, nndxlim)
+ax.set_ylim(0, nndylim)
+ax.set_xlabel('NND (nm)')
+ax.set_ylabel('Frequency')
+ax.set_title('retrieved from saved data and CSR line')
+ax.tick_params(axis='both', which='both', direction='in')
+
+for idx, metric in enumerate(distance_metrics):
+    color = colors[idx]
+
+    # Plot data histogram
+    vals = df_data_loaded[df_data_loaded['metric'] == metric]['value'].values
+    if len(vals) > 0:
+        ax.hist(vals, bins=bins, edgecolor='black', linewidth=0.1, alpha=0.5,
+                density=True, color=color, label=f'{labels[idx]} data')
+
+    # Plot CSR line
+    df_csr_metric = df_csr_loaded[df_csr_loaded['metric'] == metric]
+    if not df_csr_metric.empty:
+        ax.plot(df_csr_metric['bin_center'], df_csr_metric['density'],
+                label=f'{labels[idx]} CSR', color=color, linewidth=2)
+
+plt.tight_layout()
+plt.show()
+
 
 

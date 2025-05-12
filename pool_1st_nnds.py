@@ -13,34 +13,11 @@ import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
 
 # Set the main directory containing the numbered folders
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240618HMECmannaz/'
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Homogenous areas/GalNAz/240618_GalNAz'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Homogenous areas/ManNAz/240618_ManNAz'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240617galnaz'
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/Glycosylated spherical domains HMECs/Spherical clusters/240618galnaz'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/High density nanoclusters/ManNAz/240618_ManNAz'
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/High density nanoclusters/GalNAz/240618_GalNAz'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/Spherical MCF10As/240819_MCF10A'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/Spherical MCF10As/240820_MCF10AT'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/spherical nanodomains/20240618_ManNAz'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/Homogenous  ROIs/240820_MCF10AT'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/diff_density_areas/MCF10A_and_MCF10AT/High density domains/240820_MCF10AT'
 
 main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/ManNAz/ManNAz_combined'
 
 # main_dir = '/Users/masullo/Library/CloudStorage/Dropbox/z.forKareem_datashare/07.data_sharing/2024/Paper/HMECs Homogenous areas/GalNAz/GalNAz_combined'
 
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/MCF10As Homogenous  ROIs/MCF10A_combined'
-
-# main_dir = '/Volumes/pool-miblab/users/masullo/z_raw/GlycoRESI/z.fromKareem/homogenous areas data/MCF10As Homogenous  ROIs/MCF10AT_combined'
 
 # Extract the part before "_combined"
 basename = os.path.basename(main_dir)  # Get the last part of the path
@@ -112,7 +89,7 @@ print("Combined 1nn array from distances_csr.csv:", combined_1nn_array_distances
 
 """
 ===============================================================================
-2. NND analysis of the pulled 1st NND data
+NND analysis of the pulled 1st NND data
 ===============================================================================
 """
 
@@ -179,7 +156,69 @@ save_path = main_dir
 
 # Save each figure as a PDF
 fig_1.savefig(os.path.join(save_path, 'fig_1.pdf'), format='pdf')
-fig_2.savefig(os.path.join(save_path, 'fig_2.pdf'), format='pdf')
-fig_3.savefig(os.path.join(save_path, 'fig_3.pdf'), format='pdf')
+
+# === Extension: Save mean ± std histogram data for both data and CSR ===
+
+# Reuse bin_centers, mean_heights_distances, std_heights_distances, etc. from above
+
+# Create DataFrames
+df_data_stats = pd.DataFrame({
+    'bin_center': bin_centers,
+    'mean': mean_heights_distances,
+    'std': std_heights_distances
+})
+
+df_csr_stats = pd.DataFrame({
+    'bin_center': bin_centers,
+    'mean': mean_heights_distances_csr,
+    'std': std_heights_distances_csr
+})
+
+# Save to CSV
+df_data_stats.to_csv(os.path.join(main_dir, '1nn_data_histogram_stats.csv'), index=False)
+df_csr_stats.to_csv(os.path.join(main_dir, '1nn_csr_histogram_stats.csv'), index=False)
+
+# === Extension: Reload and replot mean ± std histogram stats for data and CSR ===
+
+# Load stats from CSVs
+df_data_stats = pd.read_csv(os.path.join(main_dir, '1nn_data_histogram_stats.csv'))
+df_csr_stats = pd.read_csv(os.path.join(main_dir, '1nn_csr_histogram_stats.csv'))
+
+# Extract values
+bin_centers = df_data_stats['bin_center'].values
+mean_data = df_data_stats['mean'].values
+std_data = df_data_stats['std'].values
+
+mean_csr = df_csr_stats['mean'].values
+std_csr = df_csr_stats['std'].values
+
+# Plot
+fig_reloaded, ax = plt.subplots()
+
+# Data
+ax.plot(bin_centers, mean_data, linestyle='-', color='#2880C4', label='Mean Height (data)')
+ax.fill_between(bin_centers, mean_data - std_data, mean_data + std_data, color='#2880C4', alpha=0.3)
+
+# CSR
+ax.plot(bin_centers, mean_csr, linestyle='-', color='#404040', label='Mean Height (CSR)')
+ax.fill_between(bin_centers, mean_csr - std_csr, mean_csr + std_csr, color='#404040', alpha=0.2)
+
+# Settings
+ax.set_xlim(0, 15)
+ax.set_ylim(0, 0.09)
+ax.set_xlabel('K-th NND (nm)')
+ax.set_ylabel('Freq.')
+ax.set_title('Retrieved from saved stats')
+ax.set_box_aspect(1)
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+
+
+
+
+
+
 
 
