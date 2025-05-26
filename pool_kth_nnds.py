@@ -78,7 +78,7 @@ combined_distances_csr = {metric: np.concatenate(all_distances_csr[metric]) if a
 
 # colors = ['#2880C4', '#F4B942', '#D9534F', '#5CB85C']  # Colors for NN1, NN2, NN3, NN4
 # colors = ['#E69F00', '#56B4E9', '#009E73', '#F0E442']
-colors = ['#2880C4', '#F4B942', '#D9534F', '#009E73']  # Colors for NN1, NN2, NN3, NN4
+colors = ['#009E73', '#F4B942', '#D9534F', '#2880C4']  # Colors for NN1, NN2, NN3, NN4
 
 labels = ['1NN', '2NN', '3NN', '4NN']
 binsize = 0.25

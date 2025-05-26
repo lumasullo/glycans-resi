@@ -16,7 +16,7 @@ import scipy.stats as stats
 plt.close('all')
 
 
-results_folder_name = "integrated_results_e_10nm"
+results_folder_name = "integrated_results_e_12nm"
 
 # Define the main directories for ManNAz and GalNAz
 dirs = {
@@ -166,6 +166,34 @@ ax2.tick_params(direction='in')
 ax3.tick_params(direction='in')
 
 plt.show()
+
+# === Save data to CSVs ===
+
+# Create a subfolder to store CSVs
+csv_output_dir = os.path.join(output_dir, "summary_csvs")
+os.makedirs(csv_output_dir, exist_ok=True)
+
+# Save raw values
+for label in results:
+    df_raw = pd.DataFrame({
+        "clustered_fraction (%)": summary_stats[label]["values_cf"],
+        "obs_density (μm^-2)": summary_stats[label]["values_od"]
+    })
+    df_raw.to_csv(os.path.join(csv_output_dir, f"{label}_raw_values.csv"), index=False)
+
+# Save summary statistics and p-values
+summary_data = {
+    "Metric": ["clustered_fraction", "obs_density"],
+    "ManNAz_mean": [summary_stats["ManNAz_combined"]["mean_cf"], summary_stats["ManNAz_combined"]["mean_od"]],
+    "ManNAz_std": [summary_stats["ManNAz_combined"]["std_cf"], summary_stats["ManNAz_combined"]["std_od"]],
+    "GalNAz_mean": [summary_stats["GalNAz_combined"]["mean_cf"], summary_stats["GalNAz_combined"]["mean_od"]],
+    "GalNAz_std": [summary_stats["GalNAz_combined"]["std_cf"], summary_stats["GalNAz_combined"]["std_od"]],
+    "p_value_group_comparison": [p_val_cf_groups, p_val_od_groups],
+    "p_value_ManNAz_vs_0": [p_vals_zero["ManNAz_cf"], p_vals_zero["ManNAz_od"]],
+    "p_value_GalNAz_vs_0": [p_vals_zero["GalNAz_cf"], p_vals_zero["GalNAz_od"]]
+}
+df_summary = pd.DataFrame(summary_data)
+df_summary.to_csv(os.path.join(csv_output_dir, "summary_statistics_and_p_values.csv"), index=False)
 
 
 
